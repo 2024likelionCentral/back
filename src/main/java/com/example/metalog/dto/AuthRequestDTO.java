@@ -2,11 +2,11 @@ package com.example.metalog.dto;
 
 import lombok.*;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @NoArgsConstructor
-public class LoginDto {
+@AllArgsConstructor
+public class AuthRequestDTO {
     private String email;
     private String password;
 }
