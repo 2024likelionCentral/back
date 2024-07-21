@@ -9,10 +9,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequestDTO {
-    private Role role;
     private String email;
-    private String password;
     private String username;
+    private Role role;
+    private String password;
+
 
     public User toEntity() {
         return User.builder()
