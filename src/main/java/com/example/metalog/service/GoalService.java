@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GoalService {
 
     private final GoalRepository goalRepository;
-
+//목표 저장
     @Transactional
     public GoalResponseDTO saveGoal(GoalRequestDTO goalRequestDto) {
         Goal goal = Goal.builder()
@@ -31,11 +31,11 @@ public class GoalService {
                 .createdTime(savedGoal.getCreatedTime())
                 .build();
     }
-
+//목표 가져오기
     @Transactional(readOnly = true)
     public GoalResponseDTO getGoal(Long goalId) {
         Goal goal = goalRepository.findById(goalId)
-                .orElseThrow(() -> new RuntimeException("Goal not found"));
+                .orElseThrow(() -> new RuntimeException("해당 목표가 없음"));
 
         return GoalResponseDTO.builder()
                 .id(goal.getId())
@@ -44,4 +44,32 @@ public class GoalService {
                 .createdTime(goal.getCreatedTime())
                 .build();
     }
+
+    //목표수정
+    @Transactional
+    public GoalResponseDTO updateGoal(Long goalId, GoalRequestDTO goalRequestDto) {
+        Goal goal = goalRepository.findById(goalId)
+                .orElseThrow(() -> new RuntimeException("해당 목표가 없음"));
+
+        goal.setGoal(goalRequestDto.getGoal());
+        goal.setActions(goalRequestDto.getActions());
+
+        Goal updatedGoal = goalRepository.save(goal);
+
+        return GoalResponseDTO.builder()
+                .id(updatedGoal.getId())
+                .goal(updatedGoal.getGoal())
+                .actions(updatedGoal.getActions())
+                .createdTime(updatedGoal.getCreatedTime())
+                .build();
+    }
+
+    //목표삭제
+    @Transactional
+    public void deleteGoal(Long goalId) {
+        Goal goal = goalRepository.findById(goalId)
+                .orElseThrow(() -> new RuntimeException("해당 목표가 없음"));
+        goalRepository.delete(goal);
+    }
+
 }
