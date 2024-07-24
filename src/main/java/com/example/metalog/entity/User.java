@@ -16,9 +16,9 @@ public class User extends BaseTimeEntity {
     @Column(length = 50, nullable = false, unique = true)
     private String email;
 
-
+/*
     @Column(length = 50, nullable = false, unique = true)
-    private String username;
+    private String username; */
 
     @Column(length = 100, nullable = false)
     private String password;
@@ -30,10 +30,11 @@ public class User extends BaseTimeEntity {
     private Auth auth;
 
     @Builder
-    public User(String email, String contact, String username, String password, Role role) {
+    public User(String email, String username, String password, Role role) {
         this.role = role;
         this.email = email;
-        this.username = username;
+        //this.username = username;
         this.password = password;
     }
+
 }
