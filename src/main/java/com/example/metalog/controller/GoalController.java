@@ -27,15 +27,4 @@ public class GoalController {
         GoalResponseDTO responseDto = goalService.getGoal(goalId);
         return ResponseEntity.ok(responseDto);
     }
-    @PutMapping("/{goalId}")
-    public ResponseEntity<GoalResponseDTO> updateGoal(@PathVariable Long goalId, @RequestBody GoalRequestDTO goalRequestDto) {
-        GoalResponseDTO response = goalService.updateGoal(goalId, goalRequestDto);
-        return ResponseEntity.ok(response);
-    }
-
-    @DeleteMapping("/{goalId}")
-    public ResponseEntity<Void> deleteGoal(@PathVariable Long goalId) {
-        goalService.deleteGoal(goalId);
-        return ResponseEntity.noContent().build();
-    }
 }
