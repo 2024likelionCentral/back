@@ -1,6 +1,7 @@
 package com.example.metalog.controller;
 
 import com.example.metalog.config.JwtTokenProvider;
+import com.example.metalog.dto.UserRequestDTO;
 import com.example.metalog.dto.UserResponseDTO;
 import com.example.metalog.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -24,15 +25,15 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
     }
 
-    /** 회원정보 수정 API
+    // 회원정보 수정 API
     @PutMapping("/api/v1/user")
     public ResponseEntity<?> updateUser(@RequestHeader("Authorization") String accessToken,
-                                        @RequestBody UserRequestDto requestDto) {
+                                        @RequestBody UserRequestDTO requestDto) {
         Long id = this.jwtTokenProvider.getUserIdFromToken(accessToken.substring(7));
         this.userService.update(id, requestDto);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-     */
+
     /** 회원정보 삭제 API */
     @DeleteMapping("/api/v1/user")
     public ResponseEntity<?> deleteUser(@RequestHeader("Authorization") String accessToken) {
