@@ -1,27 +1,44 @@
 package com.example.metalog.controller;
 
+import com.example.metalog.dto.CircumstanceRequestDTO;
+import com.example.metalog.dto.CircumstanceResponseDTO;
 import com.example.metalog.entity.Circumstance;
 import com.example.metalog.service.CircumstanceService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/circumstances")
+@RequestMapping("/circumstances")
+@RequiredArgsConstructor
 public class CircumstanceController {
 
     private final CircumstanceService service;
 
-    @Autowired
-    public CircumstanceController(CircumstanceService service) {
-        this.service = service;
+    @PostMapping
+    public ResponseEntity<CircumstanceResponseDTO> createCircumstance(@RequestBody CircumstanceRequestDTO requestDTO) {
+        CircumstanceResponseDTO responseDTO = service.saveCircumstance(requestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
-    @PostMapping
-    public Circumstance submitCircumstance(@RequestBody Circumstance circumstance) {
-        return service.saveCircumstance(circumstance);
+    @GetMapping("/{id}")
+    public ResponseEntity<CircumstanceResponseDTO> getCircumstance(@PathVariable Long id) {
+        CircumstanceResponseDTO responseDTO = service.getCircumstance(id);
+        if (responseDTO != null) {
+            return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CircumstanceResponseDTO>> getAllCircumstances() {
+        List<CircumstanceResponseDTO> circumstances = service.getAllCircumstances();
+        return new ResponseEntity<>(circumstances, HttpStatus.OK);
     }
 }
 

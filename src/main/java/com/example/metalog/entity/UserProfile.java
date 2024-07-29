@@ -4,22 +4,21 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "user_profiles")
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@Table(name = "user_profile")
 public class UserProfile extends BaseTimeEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
+    private String motto;
 
     @Lob
-    private byte[] profilePicture; // 프로필 사진 데이터
-
-    private String motto;
+    @Column(name = "profile_picture", columnDefinition = "BLOB")
+    private byte[] profilePicture;
 }
