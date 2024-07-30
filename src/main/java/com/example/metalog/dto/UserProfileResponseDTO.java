@@ -1,13 +1,14 @@
 package com.example.metalog.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class UserProfileResponseDTO {
     private Long id;
     private String username;
-    private String profilePictureUrl; // 프로필 사진 URL
     private String motto;
+    private String profilePictureUrl;
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.metalog.MetalogApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-07-26T20:11:18" hostname="LAPTOP-53EGPBM7" time="0.583">
+<testsuite name="com.example.metalog.MetalogApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-07-29T05:35:19" hostname="LAPTOP-53EGPBM7" time="0.524">
   <properties/>
-  <testcase name="contextLoads()" classname="com.example.metalog.MetalogApplicationTests" time="0.583"/>
-  <system-out><![CDATA[05:11:12.059 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.metalog.MetalogApplicationTests]: MetalogApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-05:11:12.178 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.metalog.MetalogApplication for test class com.example.metalog.MetalogApplicationTests
+  <testcase name="contextLoads()" classname="com.example.metalog.MetalogApplicationTests" time="0.524"/>
+  <system-out><![CDATA[14:35:13.278 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.metalog.MetalogApplicationTests]: MetalogApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:35:13.408 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.metalog.MetalogApplication for test class com.example.metalog.MetalogApplicationTests
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -14,30 +14,27 @@
 
  :: Spring Boot ::                (v3.3.2)
 
-2024-07-27T05:11:12.677+09:00  INFO 26696 --- [metalog] [    Test worker] c.e.metalog.MetalogApplicationTests      : Starting MetalogApplicationTests using Java 21.0.2 with PID 26696 (started by phr80 in C:\lionspring\backend)
-2024-07-27T05:11:12.679+09:00  INFO 26696 --- [metalog] [    Test worker] c.e.metalog.MetalogApplicationTests      : No active profile set, falling back to 1 default profile: "default"
-2024-07-27T05:11:13.620+09:00  INFO 26696 --- [metalog] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-07-27T05:11:13.696+09:00  INFO 26696 --- [metalog] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 68 ms. Found 5 JPA repository interfaces.
-2024-07-27T05:11:14.411+09:00  INFO 26696 --- [metalog] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-07-27T05:11:14.499+09:00  INFO 26696 --- [metalog] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
-2024-07-27T05:11:14.546+09:00  INFO 26696 --- [metalog] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2024-07-27T05:11:14.949+09:00  INFO 26696 --- [metalog] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-07-27T05:11:14.988+09:00  INFO 26696 --- [metalog] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-07-27T05:11:15.208+09:00  INFO 26696 --- [metalog] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3ba5c4dd
-2024-07-27T05:11:15.212+09:00  INFO 26696 --- [metalog] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-07-27T05:11:15.238+09:00  WARN 26696 --- [metalog] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-07-27T05:11:15.242+09:00  WARN 26696 --- [metalog] [    Test worker] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-2024-07-27T05:11:16.286+09:00  INFO 26696 --- [metalog] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-Hibernate: alter table circumstance add column cause varchar(255)
-Hibernate: alter table circumstance add column conclusion varchar(255)
-Hibernate: alter table circumstance add column feeling varchar(255)
-Hibernate: alter table user_profiles add column created_time datetime(6)
-Hibernate: alter table user_profiles add column last_modified_time datetime(6)
+2024-07-29T14:35:13.920+09:00  INFO 28232 --- [metalog] [    Test worker] c.e.metalog.MetalogApplicationTests      : Starting MetalogApplicationTests using Java 21.0.2 with PID 28232 (started by phr80 in C:\lionspring\backend)
+2024-07-29T14:35:13.921+09:00  INFO 28232 --- [metalog] [    Test worker] c.e.metalog.MetalogApplicationTests      : No active profile set, falling back to 1 default profile: "default"
+2024-07-29T14:35:14.889+09:00  INFO 28232 --- [metalog] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-07-29T14:35:14.977+09:00  INFO 28232 --- [metalog] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 80 ms. Found 5 JPA repository interfaces.
+2024-07-29T14:35:15.696+09:00  INFO 28232 --- [metalog] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-07-29T14:35:15.811+09:00  INFO 28232 --- [metalog] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-07-29T14:35:15.856+09:00  INFO 28232 --- [metalog] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-07-29T14:35:16.252+09:00  INFO 28232 --- [metalog] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-07-29T14:35:16.287+09:00  INFO 28232 --- [metalog] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-07-29T14:35:16.466+09:00  INFO 28232 --- [metalog] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2210e466
+2024-07-29T14:35:16.468+09:00  INFO 28232 --- [metalog] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-07-29T14:35:16.493+09:00  WARN 28232 --- [metalog] [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-07-29T14:35:16.494+09:00  WARN 28232 --- [metalog] [    Test worker] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-07-29T14:35:17.532+09:00  INFO 28232 --- [metalog] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: create table user_profile (id bigint not null auto_increment, created_time datetime(6), last_modified_time datetime(6), motto varchar(255), profile_picture BLOB, username varchar(255), primary key (id)) engine=InnoDB
 Hibernate: alter table auth add constraint FK71o3g4vv7a893ax9k7mrh63cd foreign key (user_id) references user (id)
+Hibernate: alter table circumstance_recognitions add constraint FKinhtrsy2wh9bba1rtbqn455jr foreign key (circumstance_id) references circumstance (id)
 Hibernate: alter table goal_actions add constraint FKb3qvoh8fyddn48oe17h2kturr foreign key (goal_id) references goal (id)
-2024-07-27T05:11:16.608+09:00  INFO 26696 --- [metalog] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-07-27T05:11:17.230+09:00  INFO 26696 --- [metalog] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailService
-2024-07-27T05:11:18.056+09:00  INFO 26696 --- [metalog] [    Test worker] c.e.metalog.MetalogApplicationTests      : Started MetalogApplicationTests in 5.648 seconds (process running for 7.044)
+2024-07-29T14:35:17.985+09:00  INFO 28232 --- [metalog] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-07-29T14:35:18.615+09:00  INFO 28232 --- [metalog] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailService
+2024-07-29T14:35:19.480+09:00  INFO 28232 --- [metalog] [    Test worker] c.e.metalog.MetalogApplicationTests      : Started MetalogApplicationTests in 5.869 seconds (process running for 14.759)
 ]]></system-out>
   <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (C:\springlion\backend\gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.14.18\417558ea01fe9f0e8a94af28b9469d281c4e3984\byte-buddy-agent-1.14.18.jar)
 WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
