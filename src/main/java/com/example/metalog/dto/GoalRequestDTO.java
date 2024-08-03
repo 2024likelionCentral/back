@@ -16,5 +16,7 @@ import java.util.List;
 public class GoalRequestDTO{
     private String goal;
     private List<String> actions;
+    private  boolean priority;
+    private Long userId;
 }
 

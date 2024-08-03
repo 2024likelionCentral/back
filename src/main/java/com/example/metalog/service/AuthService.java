@@ -29,10 +29,10 @@ public class AuthService {
     @Transactional
     public AuthResponseDTO login(AuthRequestDTO requestDto) {
         // 이메일이랑 비번확인
-        User user = this.userRepository.findByEmail(requestDto.getEmail()).orElseThrow(
-                () -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다. userEmail = " + requestDto.getEmail()));
+        User user = this.userRepository.findByUsername(requestDto.getUsername()).orElseThrow(
+                () -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다. userEmail = " + requestDto.getUsername()));
         if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다. userEmail = " + requestDto.getEmail());
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다. userEmail = " + requestDto.getUsername());
         }
 
         // 엑세스랑 리프레시 토큰 확인하기

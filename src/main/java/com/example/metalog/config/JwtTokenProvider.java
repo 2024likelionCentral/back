@@ -23,7 +23,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setSubject(customUserDetails.getUsername())
                 .claim("user-id", customUserDetails.getId())
-                .claim("user-email", customUserDetails.getEmail())
+
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecretKey)
@@ -36,7 +36,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setSubject(customUserDetails.getUsername())
                 .claim("user-id", customUserDetails.getId())
-                .claim("user-email", customUserDetails.getEmail())
+
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecretKey)
@@ -60,13 +60,7 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    public String getUserEmailFromToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(jwtSecretKey)
-                .parseClaimsJws(token)
-                .getBody()
-                .get("user-email", String.class);
-    }
+
 
     public Date getExpirationFromToken(String token) {
         return Jwts.parser()

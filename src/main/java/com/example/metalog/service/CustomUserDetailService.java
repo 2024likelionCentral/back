@@ -29,9 +29,5 @@ public class CustomUserDetailService implements UserDetailsService {
     }
 
     // 필요시 추가
-    public UserDetails loadUserByEmail(String email) throws IllegalArgumentException {
-        User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. email = " + email));
-        return new CustomUserDetails(user);
-    }
+
 }
