@@ -3,10 +3,10 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 각자 PC에 만들어놓은 Database이름을 써야 합니다.
-    url: jdbc:mysql://localhost:3306/metalog
+    url: jdbc:mysql://15.165.73.36:3306/metalog
 
     # mysql에 생성한 사용자 계정 정보를 써야 합니다.
-    username: root
+    username: metalog
     password: ${SPRING_DATASOURCE_PASSWORD}
   thymeleaf:
     cache: false
