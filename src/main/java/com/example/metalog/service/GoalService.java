@@ -34,7 +34,8 @@ public class GoalService {
                 .goal(savedGoal.getGoal())
                 .actions(savedGoal.getActions())
                 .createdTime(savedGoal.getCreatedTime())
-                .priority(savedGoal.isPriority()) // 우선순위 추가
+                .priority(savedGoal.isPriority())
+                .userId((savedGoal.getUserId()))// 우선순위 추가
                 .build();
     }
 
