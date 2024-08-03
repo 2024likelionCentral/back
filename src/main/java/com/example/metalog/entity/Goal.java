@@ -17,12 +17,18 @@ public class Goal extends BaseTimeEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long userId;
+
     private String goal;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "goal_actions", joinColumns = @JoinColumn(name = "goal_id"))
     @Column(name = "action")
     private List<String> actions;
+
+    private boolean priority;
+
+
 }
 
 

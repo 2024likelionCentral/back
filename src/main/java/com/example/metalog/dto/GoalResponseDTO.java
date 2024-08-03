@@ -1,5 +1,6 @@
 package com.example.metalog.dto;
 
+import com.example.metalog.entity.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,4 +16,6 @@ public class GoalResponseDTO {
     private String goal;
     private List<String> actions;
     private LocalDateTime createdTime;
+    private  boolean priority;
+    private Long userId;
 }

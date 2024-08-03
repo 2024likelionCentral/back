@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequestDTO {
-    private String email;
+
     private String username;
     private Role role;
     private String password;
@@ -18,7 +18,6 @@ public class UserRequestDTO {
     public User toEntity() {
         return User.builder()
                 .role(this.role)
-                .email(this.email)
                 .password(this.password)
                 .username(this.username)
                 .build();

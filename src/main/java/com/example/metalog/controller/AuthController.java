@@ -27,7 +27,8 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> singUp(@RequestBody UserRequestDTO requestDto) {
         this.authService.signup(requestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body("User registered successfully.");
+
     }
 
 
