@@ -7,8 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class UserProfileResponseDTO {
-    ;private Long id;
+    private Long id;
     private String username;
     private String motto;
-    private byte[] profilePicture;
+    private String profilePictureUrl;
 }
