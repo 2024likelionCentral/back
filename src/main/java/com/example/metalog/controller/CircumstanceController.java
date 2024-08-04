@@ -1,12 +1,14 @@
 package com.example.metalog.controller;
 
+import com.example.metalog.config.CustomUserDetails;
 import com.example.metalog.dto.CircumstanceRequestDTO;
 import com.example.metalog.dto.CircumstanceResponseDTO;
+import com.example.metalog.dto.GoalResponseDTO;
 import com.example.metalog.service.CircumstanceService;
-import com.example.metalog.config.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,30 +19,33 @@ import java.util.List;
 public class CircumstanceController {
 
     private final CircumstanceService service;
-    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping
-    public ResponseEntity<CircumstanceResponseDTO> createCircumstance(@RequestHeader("Authorization") String accessToken,
-                                                                      @RequestBody CircumstanceRequestDTO requestDTO) {
-        Long userId = jwtTokenProvider.getUserIdFromToken(accessToken.substring(7));
-        requestDTO.setUserId(userId);
-        CircumstanceResponseDTO responseDTO = service.saveCircumstance(requestDTO);
+    public ResponseEntity<CircumstanceResponseDTO> createCircumstance(
+            @RequestBody CircumstanceRequestDTO requestDTO,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        Long userId = userDetails.getId(); // 인증된 사용자의 ID를 가져옴
+        CircumstanceResponseDTO responseDTO = service.saveCircumstance(requestDTO, userId);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
+
     @GetMapping("/{id}")
-    public ResponseEntity<CircumstanceResponseDTO> getCircumstance(@PathVariable Long id) {
-        CircumstanceResponseDTO responseDTO = service.getCircumstance(id);
-        if (responseDTO != null) {
-            return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<CircumstanceResponseDTO> getCircumstance(@PathVariable Long id,@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userId = userDetails.getId();
+        CircumstanceResponseDTO responseDTO = service.getCircumstance(id,userId);
+        return ResponseEntity.ok(responseDTO);
     }
 
+
     @GetMapping
-    public ResponseEntity<List<CircumstanceResponseDTO>> getAllCircumstances() {
-        List<CircumstanceResponseDTO> circumstances = service.getAllCircumstances();
+    public ResponseEntity<List<CircumstanceResponseDTO>> getAllCircumstances(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userId = userDetails.getId();
+        List<CircumstanceResponseDTO> circumstances = service.getAllCircumstances(userId);
         return new ResponseEntity<>(circumstances, HttpStatus.OK);
     }
+
+
 }
