@@ -1,11 +1,13 @@
 package com.example.metalog.controller;
 
+import com.example.metalog.config.CustomUserDetails;
 import com.example.metalog.dto.UserProfileRequestDTO;
 import com.example.metalog.dto.UserProfileResponseDTO;
 import com.example.metalog.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,8 +20,23 @@ public class UserProfileController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserProfileResponseDTO> updateUserProfile(@PathVariable Long id,
-                                                                    @ModelAttribute UserProfileRequestDTO userProfileRequestDTO) {
-        UserProfileResponseDTO responseDTO = userProfileService.updateUserProfile(id, userProfileRequestDTO);
+                                                                    @ModelAttribute UserProfileRequestDTO userProfileRequestDTO,
+                                                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userId = userDetails.getId();
+        UserProfileResponseDTO responseDTO = userProfileService.updateUserProfile(id, userProfileRequestDTO, userId);
+        if (responseDTO != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PostMapping("/{id}/update-picture")
+    public ResponseEntity<UserProfileResponseDTO> updateProfilePicture(@PathVariable Long id,
+                                                                       @RequestParam("profilePicture") MultipartFile file,
+                                                                       @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userId = userDetails.getId();
+        UserProfileResponseDTO responseDTO = userProfileService.updateProfilePicture(id, file, userId);
         if (responseDTO != null) {
             return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
         } else {
