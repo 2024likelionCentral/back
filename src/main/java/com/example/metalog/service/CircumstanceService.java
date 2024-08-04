@@ -6,6 +6,7 @@ import com.example.metalog.dto.GoalResponseDTO;
 import com.example.metalog.entity.Circumstance;
 import com.example.metalog.entity.Goal;
 import com.example.metalog.repository.CircumstanceRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -70,5 +71,13 @@ public class CircumstanceService {
                         .createdDate(circumstance.getCreatedTime())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void deleteCircumstance(Long id) {
+        Circumstance circumstance = circumstanceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Circumstance not found"));
+
+        circumstanceRepository.delete(circumstance);
     }
 }

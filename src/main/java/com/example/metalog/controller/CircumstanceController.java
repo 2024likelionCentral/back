@@ -47,5 +47,12 @@ public class CircumstanceController {
         return new ResponseEntity<>(circumstances, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGoal(
+            @PathVariable Long id) {
+        service.deleteCircumstance(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
