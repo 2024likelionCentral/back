@@ -11,5 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 public class CircumstanceRequestDTO {
     private String situation;
-    private List<String> recognitions;
+    private List<String> emotions;
+    private List<String> causes;
+    private String conclusion;
+    private Long userId;
 }

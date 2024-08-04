@@ -13,6 +13,9 @@ import java.util.List;
 public class CircumstanceResponseDTO {
     private Long id;
     private String situation;
-    private List<String> recognitions;
+    private List<String> emotions;
+    private List<String> causes;
+    private String conclusion;
     private LocalDateTime createdDate;
+    private Long userId;
 }
