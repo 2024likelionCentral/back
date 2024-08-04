@@ -18,10 +18,8 @@ public class UserProfileController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserProfileResponseDTO> updateUserProfile(@PathVariable Long id,
-                                                                    @RequestParam(required = false) String username,
-                                                                    @RequestParam(required = false) String motto,
-                                                                    @RequestParam(required = false) MultipartFile profilePicture) {
-        UserProfileResponseDTO responseDTO = userProfileService.updateUserProfile(id, username, motto, profilePicture);
+                                                                    @ModelAttribute UserProfileRequestDTO userProfileRequestDTO) {
+        UserProfileResponseDTO responseDTO = userProfileService.updateUserProfile(id, userProfileRequestDTO);
         if (responseDTO != null) {
             return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
         } else {
