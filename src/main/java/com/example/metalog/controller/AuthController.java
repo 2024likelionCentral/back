@@ -8,6 +8,9 @@ import com.example.metalog.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
@@ -24,13 +27,16 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> singUp(@RequestBody UserRequestDTO requestDto) {
         this.authService.signup(requestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body("User registered successfully.");
+
     }
 
 
     @GetMapping("/refresh")
     public ResponseEntity<?> refreshToken(@RequestHeader("REFRESH_TOKEN") String refreshToken) {
         String newAccessToken = this.authService.refreshToken(refreshToken);
-        return ResponseEntity.status(HttpStatus.OK).body(newAccessToken);
+        Map<String, String> response = new HashMap<>();
+        response.put("accessToken", newAccessToken);
+        return ResponseEntity.ok(response);
     }
 }
