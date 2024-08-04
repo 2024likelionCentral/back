@@ -16,11 +16,19 @@ public class Circumstance extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long userId;
 
     private String situation;
 
-    @ElementCollection
-    @CollectionTable(name = "circumstance_recognitions", joinColumns = @JoinColumn(name = "circumstance_id"))
-    @Column(name = "recognition")
-    private List<String> recognitions;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "circumstance_emotions", joinColumns = @JoinColumn(name = "circumstance_id"))
+    @Column(name = "emotion")
+    private List<String> emotions;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "circumstance_causes", joinColumns = @JoinColumn(name = "circumstance_id"))
+    @Column(name = "cause")
+    private List<String> causes;
+
+    private String conclusion;
 }
