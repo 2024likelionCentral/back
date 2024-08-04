@@ -93,4 +93,12 @@ public class GoalService {
                 .priority(updatedGoal.isPriority())
                 .build();
     }
+
+    @Transactional
+    public void deleteGoal(Long goalId) {
+        Goal goal = goalRepository.findById(goalId)
+                .orElseThrow(() -> new RuntimeException("Goal not found"));
+
+        goalRepository.delete(goal);
+    }
 }
