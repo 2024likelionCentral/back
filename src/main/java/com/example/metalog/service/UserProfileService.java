@@ -17,34 +17,44 @@ public class UserProfileService {
 
     private final UserProfileRepository userProfileRepository;
 
-    public UserProfileResponseDTO updateUserProfile(Long id, UserProfileRequestDTO userProfileRequestDTO) {
-        Optional<UserProfile> userProfileOptional = userProfileRepository.findById(id);
-
-        if (userProfileOptional.isPresent()) {
-            UserProfile userProfile = userProfileOptional.get();
-            userProfile.setUsername(userProfileRequestDTO.getUsername());
-            userProfile.setMotto(userProfileRequestDTO.getMotto());
-
-            MultipartFile profilePicture = userProfileRequestDTO.getProfilePicture();
-            if (profilePicture != null && !profilePicture.isEmpty()) {
-                try {
-                    userProfile.setProfilePicture(profilePicture.getBytes());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            UserProfile updatedUserProfile = userProfileRepository.save(userProfile);
+    public UserProfileResponseDTO updateUserProfile(Long id, UserProfileRequestDTO requestDTO, Long userId) {
+        Optional<UserProfile> optionalUserProfile = userProfileRepository.findById(id);
+        if (optionalUserProfile.isPresent() && optionalUserProfile.get().getId().equals(userId)) {
+            UserProfile userProfile = optionalUserProfile.get();
+            userProfile.setUsername(requestDTO.getUsername());
+            userProfile.setMotto(requestDTO.getMotto());
+            userProfileRepository.save(userProfile);
 
             return UserProfileResponseDTO.builder()
-                    .id(updatedUserProfile.getId())
-                    .username(updatedUserProfile.getUsername())
-                    .motto(updatedUserProfile.getMotto())
-                    .profilePictureUrl("/user-profile/" + updatedUserProfile.getId() + "/profile-picture")
+                    .id(userProfile.getId())
+                    .username(userProfile.getUsername())
+                    .motto(userProfile.getMotto())
+                    .profilePicture(userProfile.getProfilePicture())
                     .build();
-        } else {
-            return null;
         }
+        return null;
+    }
+
+    public UserProfileResponseDTO updateProfilePicture(Long id, MultipartFile file, Long userId) {
+        Optional<UserProfile> optionalUserProfile = userProfileRepository.findById(id);
+        if (optionalUserProfile.isPresent() && optionalUserProfile.get().getId().equals(userId)) {
+            UserProfile userProfile = optionalUserProfile.get();
+            try {
+                userProfile.setProfilePicture(file.getBytes());
+                userProfileRepository.save(userProfile);
+
+                return UserProfileResponseDTO.builder()
+                        .id(userProfile.getId())
+                        .username(userProfile.getUsername())
+                        .motto(userProfile.getMotto())
+                        .profilePicture(userProfile.getProfilePicture())
+                        .build();
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the error
+            }
+        }
+        return null;
     }
 
     public UserProfileResponseDTO getUserProfile(Long id) {
@@ -53,7 +63,7 @@ public class UserProfileService {
                         .id(userProfile.getId())
                         .username(userProfile.getUsername())
                         .motto(userProfile.getMotto())
-                        .profilePictureUrl("/user-profile/" + userProfile.getId() + "/profile-picture")
+                        .profilePicture(userProfile.getProfilePicture())
                         .build())
                 .orElse(null);
     }
