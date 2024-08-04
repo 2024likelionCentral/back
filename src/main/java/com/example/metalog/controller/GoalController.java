@@ -53,4 +53,11 @@ public class GoalController {
         return ResponseEntity.ok(responseDTO);
     }
 
+    @DeleteMapping("/{goalId}")
+    public ResponseEntity<Void> deleteGoal(
+            @PathVariable Long goalId) {
+        goalService.deleteGoal(goalId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
