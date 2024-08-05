@@ -2,10 +2,13 @@ package com.example.metalog.service;
 
 import com.example.metalog.dto.UserProfileRequestDTO;
 import com.example.metalog.dto.UserProfileResponseDTO;
+import com.example.metalog.entity.User;
 import com.example.metalog.entity.UserProfile;
 import com.example.metalog.repository.UserProfileRepository;
+import com.example.metalog.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -16,14 +19,22 @@ import java.util.Optional;
 public class UserProfileService {
 
     private final UserProfileRepository userProfileRepository;
+    private final UserRepository userRepository;
 
-    public UserProfileResponseDTO updateUserProfile(Long id, UserProfileRequestDTO requestDTO, Long userId) {
-        Optional<UserProfile> optionalUserProfile = userProfileRepository.findById(id);
-        if (optionalUserProfile.isPresent() && optionalUserProfile.get().getId().equals(userId)) {
+    public UserProfileResponseDTO updateUserProfile(UserProfileRequestDTO requestDTO, String username) {
+
+        Optional<UserProfile> optionalUserProfile = userProfileRepository.findByUsername(username);
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+
+        if (optionalUserProfile.isPresent() && optionalUser.isPresent()) {
             UserProfile userProfile = optionalUserProfile.get();
+            User user = optionalUser.get();
+
+
             userProfile.setUsername(requestDTO.getUsername());
-            userProfile.setMotto(requestDTO.getMotto());
+            user.setUsername(requestDTO.getUsername());
             userProfileRepository.save(userProfile);
+            userRepository.save(user);
 
             return UserProfileResponseDTO.builder()
                     .id(userProfile.getId())
@@ -32,12 +43,25 @@ public class UserProfileService {
                     .profilePicture(userProfile.getProfilePicture())
                     .build();
         }
+
         return null;
     }
 
-    public UserProfileResponseDTO updateProfilePicture(Long id, MultipartFile file, Long userId) {
-        Optional<UserProfile> optionalUserProfile = userProfileRepository.findById(id);
-        if (optionalUserProfile.isPresent() && optionalUserProfile.get().getId().equals(userId)) {
+    @Transactional
+    public void createUserProfile(UserProfileRequestDTO requestDTO) {
+
+        UserProfile userProfile = UserProfile.builder()
+                .username(requestDTO.getUsername())
+                .motto(requestDTO.getMotto())
+                .profilePicture(null)
+                .build();
+
+        userProfileRepository.save(userProfile);
+    }
+
+    public UserProfileResponseDTO updateProfilePicture(MultipartFile file, String username) {
+        Optional<UserProfile> optionalUserProfile = userProfileRepository.findByUsername(username);
+        if (optionalUserProfile.isPresent()) {
             UserProfile userProfile = optionalUserProfile.get();
             try {
                 userProfile.setProfilePicture(file.getBytes());
@@ -57,8 +81,8 @@ public class UserProfileService {
         return null;
     }
 
-    public UserProfileResponseDTO getUserProfile(Long id) {
-        return userProfileRepository.findById(id)
+    public UserProfileResponseDTO getUserProfile(String username) {
+        return userProfileRepository.findByUsername(username)
                 .map(userProfile -> UserProfileResponseDTO.builder()
                         .id(userProfile.getId())
                         .username(userProfile.getUsername())
