@@ -21,8 +21,8 @@ public class UserProfileService {
     private final UserProfileRepository userProfileRepository;
     private final UserRepository userRepository;
 
-    @Transactional
     public UserProfileResponseDTO updateUserProfile(UserProfileRequestDTO requestDTO, String username) {
+
         Optional<UserProfile> optionalUserProfile = userProfileRepository.findByUsername(username);
         Optional<User> optionalUser = userRepository.findByUsername(username);
 
@@ -30,19 +30,9 @@ public class UserProfileService {
             UserProfile userProfile = optionalUserProfile.get();
             User user = optionalUser.get();
 
+
             userProfile.setUsername(requestDTO.getUsername());
-            userProfile.setMotto(requestDTO.getMotto());
             user.setUsername(requestDTO.getUsername());
-
-            MultipartFile profilePicture = requestDTO.getProfilePicture();
-            if (profilePicture != null && !profilePicture.isEmpty()) {
-                try {
-                    userProfile.setProfilePicture(profilePicture.getBytes());
-                } catch (IOException e) {
-                    throw new RuntimeException("Failed to save profile picture", e);
-                }
-            }
-
             userProfileRepository.save(userProfile);
             userRepository.save(user);
 
@@ -69,6 +59,27 @@ public class UserProfileService {
         userProfileRepository.save(userProfile);
     }
 
+    public UserProfileResponseDTO updateProfilePicture(MultipartFile file, String username) {
+        Optional<UserProfile> optionalUserProfile = userProfileRepository.findByUsername(username);
+        if (optionalUserProfile.isPresent()) {
+            UserProfile userProfile = optionalUserProfile.get();
+            try {
+                userProfile.setProfilePicture(file.getBytes());
+                userProfileRepository.save(userProfile);
+
+                return UserProfileResponseDTO.builder()
+                        .id(userProfile.getId())
+                        .username(userProfile.getUsername())
+                        .motto(userProfile.getMotto())
+                        .profilePicture(userProfile.getProfilePicture())
+                        .build();
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the error
+            }
+        }
+        return null;
+    }
 
     public UserProfileResponseDTO getUserProfile(String username) {
         return userProfileRepository.findByUsername(username)
