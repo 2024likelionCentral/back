@@ -1,6 +1,7 @@
 package com.example.metalog.controller;
 
 import com.example.metalog.config.CustomUserDetails;
+import com.example.metalog.dto.CircumstanceListResponseDTO;
 import com.example.metalog.dto.CircumstanceRequestDTO;
 import com.example.metalog.dto.CircumstanceResponseDTO;
 import com.example.metalog.dto.GoalResponseDTO;
@@ -41,10 +42,10 @@ public class CircumstanceController {
 
 
     @GetMapping
-    public ResponseEntity<List<CircumstanceResponseDTO>> getAllCircumstances(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<CircumstanceListResponseDTO> getAllCircumstances(@AuthenticationPrincipal CustomUserDetails userDetails) {
         Long userId = userDetails.getId();
-        List<CircumstanceResponseDTO> circumstances = service.getAllCircumstances(userId);
-        return new ResponseEntity<>(circumstances, HttpStatus.OK);
+        CircumstanceListResponseDTO responseDTO = service.getAllCircumstances(userId);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
