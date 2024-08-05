@@ -18,11 +18,26 @@ public class UserProfileController {
 
     private final UserProfileService userProfileService;
 
-    @PutMapping
-    public ResponseEntity<UserProfileResponseDTO> updateUserProfile(@ModelAttribute UserProfileRequestDTO userProfileRequestDTO,
-                                                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
+    @PutMapping("/update-profile")
+    public ResponseEntity<UserProfileResponseDTO> updateUserProfile(
+            @RequestBody UserProfileRequestDTO userProfileRequestDTO,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+
         String username = userDetails.getUsername();
         UserProfileResponseDTO responseDTO = userProfileService.updateUserProfile(userProfileRequestDTO, username);
+        if (responseDTO != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PutMapping("/update-picture")
+    public ResponseEntity<UserProfileResponseDTO> updateProfilePicture(
+            @RequestParam("profilePicture") MultipartFile file,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        String username = userDetails.getUsername();
+        UserProfileResponseDTO responseDTO = userProfileService.updateProfilePicture(file, username);
         if (responseDTO != null) {
             return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
         } else {
