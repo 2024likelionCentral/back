@@ -12,5 +12,5 @@ public interface CircumstanceRepository extends JpaRepository<Circumstance, Long
 
     Optional<Circumstance> findByIdAndUserId(Long id, Long userId);
     List<Circumstance> findAllByUserId(Long userId);
-
+    Long countByUserId(Long userId);
 }
