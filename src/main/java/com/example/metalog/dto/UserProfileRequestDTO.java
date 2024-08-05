@@ -11,4 +11,5 @@ public class UserProfileRequestDTO {
     private String username;
     private String motto;
     private MultipartFile profilePicture;
+    private Long userId;
 }
