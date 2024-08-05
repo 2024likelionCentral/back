@@ -1,6 +1,5 @@
 package com.example.metalog.service;
 
-import com.example.metalog.dto.CircumstanceListResponseDTO;
 import com.example.metalog.dto.CircumstanceRequestDTO;
 import com.example.metalog.dto.CircumstanceResponseDTO;
 import com.example.metalog.dto.GoalResponseDTO;
@@ -59,23 +58,19 @@ public class CircumstanceService {
 
     }
 
-    public CircumstanceListResponseDTO getAllCircumstances(Long userId) {
+    public List<CircumstanceResponseDTO> getAllCircumstances(Long userId) {
         List<Circumstance> circumstances = circumstanceRepository.findAllByUserId(userId);
-        List<CircumstanceResponseDTO> circumstanceDTOs = circumstances.stream()
+        return circumstances.stream()
                 .map(circumstance -> CircumstanceResponseDTO.builder()
                         .id(circumstance.getId())
                         .situation(circumstance.getSituation())
                         .emotions(circumstance.getEmotions())
                         .causes(circumstance.getCauses())
                         .conclusion(circumstance.getConclusion())
-                        .userId(circumstance.getUserId())
+                        .userId(circumstance.getUserId()) // 사용자 ID 반환
                         .createdDate(circumstance.getCreatedTime())
                         .build())
                 .collect(Collectors.toList());
-        return CircumstanceListResponseDTO.builder()
-                .circumstances(circumstanceDTOs)
-                .totalCircumstances(circumstanceDTOs.size())
-                .build();
     }
 
     @Transactional

@@ -18,13 +18,12 @@ public class UserProfileController {
 
     private final UserProfileService userProfileService;
 
-    @PutMapping("/update-profile")
-    public ResponseEntity<UserProfileResponseDTO> updateUserProfile(
-                                                                    @RequestBody UserProfileRequestDTO userProfileRequestDTO,
+    @PutMapping("/{id}")
+    public ResponseEntity<UserProfileResponseDTO> updateUserProfile(@PathVariable Long id,
+                                                                    @ModelAttribute UserProfileRequestDTO userProfileRequestDTO,
                                                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
-
-        String username = userDetails.getUsername();
-        UserProfileResponseDTO responseDTO = userProfileService.updateUserProfile(userProfileRequestDTO, username);
+        Long userId = userDetails.getId();
+        UserProfileResponseDTO responseDTO = userProfileService.updateUserProfile(id, userProfileRequestDTO, userId);
         if (responseDTO != null) {
             return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
         } else {
@@ -32,12 +31,12 @@ public class UserProfileController {
         }
     }
 
-    @PutMapping("/update-picture")
-    public ResponseEntity<UserProfileResponseDTO> updateProfilePicture(
+    @PostMapping("/{id}/update-picture")
+    public ResponseEntity<UserProfileResponseDTO> updateProfilePicture(@PathVariable Long id,
                                                                        @RequestParam("profilePicture") MultipartFile file,
                                                                        @AuthenticationPrincipal CustomUserDetails userDetails) {
-        String username = userDetails.getUsername();
-        UserProfileResponseDTO responseDTO = userProfileService.updateProfilePicture(file, username);
+        Long userId = userDetails.getId();
+        UserProfileResponseDTO responseDTO = userProfileService.updateProfilePicture(id, file, userId);
         if (responseDTO != null) {
             return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
         } else {
@@ -45,10 +44,9 @@ public class UserProfileController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<UserProfileResponseDTO> getUserProfile(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        String username = userDetails.getUsername();
-        UserProfileResponseDTO responseDTO = userProfileService.getUserProfile(username);
+    @GetMapping("/{id}")
+    public ResponseEntity<UserProfileResponseDTO> getUserProfile(@PathVariable Long id) {
+        UserProfileResponseDTO responseDTO = userProfileService.getUserProfile(id);
         if (responseDTO != null) {
             return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
         } else {

@@ -4,7 +4,6 @@ import com.example.metalog.config.CustomUserDetails;
 import com.example.metalog.config.JwtTokenProvider;
 import com.example.metalog.dto.AuthRequestDTO;
 import com.example.metalog.dto.AuthResponseDTO;
-import com.example.metalog.dto.UserProfileRequestDTO;
 import com.example.metalog.dto.UserRequestDTO;
 import com.example.metalog.entity.Auth;
 import com.example.metalog.entity.Role;
@@ -17,7 +16,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -26,14 +24,13 @@ public class AuthService {
     private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserProfileService userProfileService;
 
 
     @Transactional
     public AuthResponseDTO login(AuthRequestDTO requestDto) {
         // 이메일이랑 비번확인
         User user = this.userRepository.findByUsername(requestDto.getUsername()).orElseThrow(
-                () -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다. userName = " + requestDto.getUsername()));
+                () -> new UsernameNotFoundException("해당 유저를 찾을 수 없습니다. userEmail = " + requestDto.getUsername()));
         if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다. userEmail = " + requestDto.getUsername());
         }
@@ -48,7 +45,7 @@ public class AuthService {
         if (this.authRepository.existsByUser(user)) {
             user.getAuth().updateAccessToken(accessToken);
             user.getAuth().updateRefreshToken(refreshToken);
-            return new AuthResponseDTO(user.getAuth(), user.getId());
+            return new AuthResponseDTO(user.getAuth());
         }
 
         // 인증된거 없으면 새로 만들기
@@ -58,24 +55,14 @@ public class AuthService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build());
-
-        return new AuthResponseDTO(auth, user.getId());
+        return new AuthResponseDTO(auth);
     }
 
     @Transactional
     public void signup(UserRequestDTO requestDto) {
         requestDto.setRole(Role.ROLE_USER);
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-        User user = this.userRepository.save(requestDto.toEntity());
-
-
-        UserProfileRequestDTO userProfileRequestDTO = UserProfileRequestDTO.builder()
-                .username(user.getUsername())
-                .motto("Default motto")  // 기본 모토 설정
-                .profilePicture(null)
-                .build();
-        userProfileService.createUserProfile(userProfileRequestDTO);
-
+        this.userRepository.save(requestDto.toEntity());
     }
 
     @Transactional
@@ -92,7 +79,8 @@ public class AuthService {
             return newAccessToken;
         }
 
-
+        // IF NOT AVAILABLE REFRESH_TOKEN EXPIRATION, REGENERATE ACCESS_TOKEN AND REFRESH_TOKEN
+        // IN THIS CASE, USER HAVE TO LOGIN AGAIN, SO REGENERATE IS NOT APPROPRIATE
         return null;
     }
 }
