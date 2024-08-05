@@ -1,6 +1,7 @@
 package com.example.metalog.controller;
 
 import com.example.metalog.config.CustomUserDetails;
+import com.example.metalog.dto.GoalListResponseDTO;
 import com.example.metalog.dto.GoalRequestDTO;
 import com.example.metalog.dto.GoalResponseDTO;
 import com.example.metalog.service.GoalService;
@@ -37,12 +38,12 @@ public class GoalController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GoalResponseDTO>> getAllGoals(
-            @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<GoalListResponseDTO> getAllGoals(@AuthenticationPrincipal CustomUserDetails userDetails) {
         Long userId = userDetails.getId();
-        List<GoalResponseDTO> responseDTOs = goalService.getAllGoals(userId);
-        return ResponseEntity.ok(responseDTOs);
+        GoalListResponseDTO responseDTO = goalService.getAllGoals(userId);
+        return ResponseEntity.ok(responseDTO);
     }
+
 
     @PatchMapping("/{goalId}/priority")
     public ResponseEntity<GoalResponseDTO> updatePriority(

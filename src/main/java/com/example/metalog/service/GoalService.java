@@ -1,5 +1,6 @@
 package com.example.metalog.service;
 
+import com.example.metalog.dto.GoalListResponseDTO;
 import com.example.metalog.dto.GoalRequestDTO;
 import com.example.metalog.dto.GoalResponseDTO;
 import com.example.metalog.entity.Goal;
@@ -56,9 +57,9 @@ public class GoalService {
 
 
     @Transactional(readOnly = true)
-    public List<GoalResponseDTO> getAllGoals(Long userId) {
+    public GoalListResponseDTO getAllGoals(Long userId) {
         List<Goal> goals = goalRepository.findAllByUserId(userId);
-        return goals.stream()
+        List<GoalResponseDTO> goalResponseDTOs = goals.stream()
                 .map(goal -> GoalResponseDTO.builder()
                         .id(goal.getId())
                         .goal(goal.getGoal())
@@ -68,6 +69,11 @@ public class GoalService {
                         .userId(goal.getUserId())
                         .build())
                 .collect(Collectors.toList());
+
+        return GoalListResponseDTO.builder()
+                .goals(goalResponseDTOs)
+                .totalGoals(goals.size())
+                .build();
     }
 
     @Transactional
