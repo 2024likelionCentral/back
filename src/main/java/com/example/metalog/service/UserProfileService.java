@@ -32,7 +32,7 @@ public class UserProfileService {
 
 
             userProfile.setUsername(requestDTO.getUsername());
-            user.setUsername(requestDTO.getUsername());
+            userProfile.setMotto(requestDTO.getMotto());
             userProfileRepository.save(userProfile);
             userRepository.save(user);
 
